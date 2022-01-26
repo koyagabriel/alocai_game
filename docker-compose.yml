@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  alocai_db:
+    image: postgres
+    container_name: alocai-database
+    env_file:
+      - .env
+    ports:
+      - 5434:5432
+
+  alocai_api:
+    build: .
+    container_name: alocai-api
+    depends_on:
+      - alocai_db
+    ports:
+      - "5000:5000"
+    expose:
+      - "5000"
+    links:
+      - "alocai_db"
