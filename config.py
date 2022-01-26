@@ -2,12 +2,12 @@ from ast import Pass
 import os
 from dotenv import load_dotenv
 
-dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+dotenv_path: str = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
 
 class Config:
-    ENV = os.environ.get('ENV')
+    ENV: str = os.environ.get('ENV')
   
   
 class DevelopmentConfig(Config):
@@ -15,15 +15,15 @@ class DevelopmentConfig(Config):
    
    
 class TestingConfig(Config):
-    ENV = "testing"
-    TESTING = True
+    ENV: str = "testing"
+    TESTING: bool = True
     
 
 class ProductionConfig(Config):
     pass
     
     
-config = {
+config: dict[str, Config] = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig
