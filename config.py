@@ -1,6 +1,6 @@
-from ast import Pass
 import os
 from dotenv import load_dotenv
+from typing import Dict
 
 dotenv_path: str = os.path.join(os.path.dirname(__file__), '.env')
 load_dotenv(dotenv_path)
@@ -23,7 +23,7 @@ class ProductionConfig(Config):
     pass
     
     
-config: dict[str, Config] = {
+config: Dict[str, Config] = {
     "development": DevelopmentConfig,
     "testing": TestingConfig,
     "production": ProductionConfig
