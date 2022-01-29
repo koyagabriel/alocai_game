@@ -6,5 +6,5 @@ from app import create_app
 dotenv_path: str  = os.path.join(os.path.dirname(__file__), ".env")
 load_dotenv(dotenv_path)
 
-app: Flask = create_app(os.environ.get("FLASK_ENV") or "development")
+app: Flask = create_app(os.environ.get("FLASK_ENV"))
 
