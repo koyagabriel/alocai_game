@@ -5,8 +5,6 @@ from src.v1.models import Game
 class GameSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Game
-        
-    
     name = fields.String(required=True)
     
     @validates("name")
