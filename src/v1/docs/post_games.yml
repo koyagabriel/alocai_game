@@ -1,0 +1,33 @@
+summary: Add a new game
+description: ''
+operationId: addGame
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    description: Game object that needs to be added
+    required: true
+    schema:
+      $ref: '#/definitions/Game'
+definitions:
+  Game:
+    required: ["name", "price", "space"]
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+      price:
+        type: number
+        format: float
+        minimum: 0.0
+      space:
+        type: integer
+        format: int64
+
+responses:
+  '405':
+    description: Invalid input
