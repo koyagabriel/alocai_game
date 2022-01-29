@@ -4,7 +4,7 @@ from typing import Dict, Any, Optional, List
 from app import db
 from src.v1.decorators import catch_exceptions
 from src.v1.utils import test_database_connection, respond_to_json, get_json
-from src.v1.exceptions import SwaggerException
+from src.v1.exceptions import SwaggerException, ValidationException
 from src.v1.models import Game
 from src.v1.schemas import GameSchema
 
@@ -13,7 +13,7 @@ def index():
     return jsonify({"name": "Alocia games"})
 
 @swag_from("docs/database_status.yml")
-# @catch_exceptions("Failed to get database status")
+@catch_exceptions("Failed to get database status")
 def get_database_status() -> Response:
     healthy: bool = test_database_connection()
     method: str = request.method
@@ -40,11 +40,18 @@ def post_games() -> Response:
     game: Dict[str, Any] = GameSchema().dump(Game.create(data))
     return respond_to_json(data=game, status_code=201)
 
-
+@swag_from("docs/fetch_games.yml")
 @catch_exceptions("Failed to fetch best value games")
 def fetch_best_value_games() -> Response:
     pen_drive_space: Optional[str] = request.args.get("pen_drive_space", None)
-    result: List[Any]= Game.fetch_best_value_games(int(pen_drive_space))
+    
+    if pen_drive_space is None:
+        raise ValidationException("pen_drive_space query parameter is required", propagate=True)
+    
+    if not pen_drive_space.isdigit():
+        raise ValidationException("pen_drive_space query parameter must be an integer", propagate=True)
+    
+    result: List[Any] = Game.fetch_best_value_games(int(pen_drive_space))
     data: Dict[str, Any] = {
         "games": GameSchema().dump(result[0][0], many=True),
         "total_space": result[0][1],
