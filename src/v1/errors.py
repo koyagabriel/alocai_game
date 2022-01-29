@@ -31,14 +31,14 @@ def internal_server_error(e):
     Returns a 500 status code for an internal server error and appropriate
     error message
     """
-    context = {'error': 'internal server error', 'message': str(e)}
+    context = {'error': 'internal server error', 'message': e}
     return process_response(500, context)
 
 
 @v1.errorhandler(400)
 def validation_error(e):
     """Returns a 400 status code for data validation failure"""
-    context = {'error': 'validation error', 'message': str(e)}
+    context = {'error': 'validation error', 'message': e}
     return process_response(400, context)
 
     
