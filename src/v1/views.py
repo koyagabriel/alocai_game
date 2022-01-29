@@ -1,6 +1,6 @@
 from flask import jsonify, request, Response
 from flasgger import swag_from, validate
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 from app import db
 from src.v1.decorators import catch_exceptions
 from src.v1.utils import test_database_connection, respond_to_json, get_json
@@ -13,7 +13,7 @@ def index():
     return jsonify({"name": "Alocia games"})
 
 @swag_from("docs/database_status.yml")
-@catch_exceptions("Failed to get database status")
+# @catch_exceptions("Failed to get database status")
 def get_database_status() -> Response:
     healthy: bool = test_database_connection()
     method: str = request.method
@@ -44,10 +44,10 @@ def post_games() -> Response:
 @catch_exceptions("Failed to fetch best value games")
 def fetch_best_value_games() -> Response:
     pen_drive_space: Optional[str] = request.args.get("pen_drive_space", None)
-    list_of_games, total_space, remaining_space = Game.fetch_best_value_games(int(pen_drive_space))
+    result: List[Any]= Game.fetch_best_value_games(int(pen_drive_space))
     data: Dict[str, Any] = {
-        "games": GameSchema().dump(list_of_games, many=True),
-        "total_space": total_space,
-        "remaining_space": remaining_space
+        "games": GameSchema().dump(result[0][0], many=True),
+        "total_space": result[0][1],
+        "remaining_space": int(pen_drive_space) - result[0][1]
     }
     return respond_to_json(data=data, status_code=200)
