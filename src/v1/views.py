@@ -1,6 +1,6 @@
 from flask import jsonify, request, Response
 from flasgger import swag_from, validate
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from app import db
 from src.v1.decorators import catch_exceptions
 from src.v1.utils import test_database_connection, respond_to_json, get_json
@@ -39,4 +39,15 @@ def post_games() -> Response:
     data: Dict[str, Any] = GameSchema().load(get_json(request))
     game: Dict[str, Any] = GameSchema().dump(Game.create(data))
     return respond_to_json(data=game, status_code=201)
-    
+
+
+@catch_exceptions("Failed to fetch best value games")
+def fetch_best_value_games() -> Response:
+    pen_drive_space: Optional[str] = request.args.get("pen_drive_space", None)
+    list_of_games, total_space, remaining_space = Game.fetch_best_value_games(int(pen_drive_space))
+    data: Dict[str, Any] = {
+        "games": GameSchema().dump(list_of_games, many=True),
+        "total_space": total_space,
+        "remaining_space": remaining_space
+    }
+    return respond_to_json(data=data, status_code=200)
