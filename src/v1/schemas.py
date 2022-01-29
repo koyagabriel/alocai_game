@@ -6,6 +6,7 @@ class GameSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = Game
     name = fields.String(required=True)
+    price = fields.Float(required=True)
     
     @validates("name")
     def validate_name(self, value):
