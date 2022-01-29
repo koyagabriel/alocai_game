@@ -1,7 +1,9 @@
+
 from datetime import datetime
 from pydoc import classname
 from app import db
 from typing import List
+import copy
 
 
 class BaseMixin(object):
@@ -21,6 +23,10 @@ class Game(BaseMixin, db.Model):
     price = db.Column(db.DECIMAL, nullable=False)
     space = db.Column(db.BigInteger, nullable=False)
     
+    
+    LIST_OF_GAMES = []
+    SPACE_SUM = 0
+    
     @classmethod
     def create(cls, params):
         game_instance: cls = cls(**params)
@@ -36,20 +42,27 @@ class Game(BaseMixin, db.Model):
     
     @classmethod
     def fetch_best_value_games(cls, pen_drive_space: int):
-        query_set = cls.query.filter(cls.space <= pen_drive_space).order_by(cls.space)
-        list_of_games: List[cls]  = []
-        total_space: int = 0
-        remaining_space: int = pen_drive_space
-        for game in query_set:
-            game_space: int = game.space
-            if remaining_space >= game_space:
-                list_of_games.append(game)
-                total_space += game_space
-                remaining_space -= game_space
-            else:
-                break
-        
-        return (list_of_games, total_space, remaining_space)
+        query_set = cls.query.filter(cls.space <= pen_drive_space).order_by(cls.space).all()
+        output = []
+        result = []
+        cls.get_highest_possible_combination(pen_drive_space, 0, query_set, output, result)
+        return output
+    
+    @classmethod
+    def get_highest_possible_combination(cls, target, current_sum, start, output, result):
+        if current_sum <= target or not start:
+            if not output:
+                output.append([copy.copy(result), current_sum])
+            elif (output[0][1] < current_sum) or (len(output[0][0]) < len(result)):
+                output[0] = [copy.copy(result), current_sum]
 
-        
+        for i in range(len(start)):
+            temp_sum = current_sum + start[i].space
+            if temp_sum <= target:
+                result.append(start[i])
+                cls.get_highest_possible_combination(target, temp_sum, start[i+1:], output, result)
+                result.pop()
+            else:
+                return
+
 
