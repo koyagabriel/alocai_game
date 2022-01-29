@@ -40,6 +40,7 @@ URL Prefix = Base URL is `http://localhost:5000/api/v1` on your local system.
 | -------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | :-------------------------------------------------------: |
 | **GET** `/index`                                               | Gets index page                                                                              |                                                           |
 | **GET** `/status`                                              | Gets state of database connection                                                            |
+| **HEAD** `/status`                                             | Gets state of database connection                                                            |
 | **GET** `/docs`                                                | Get api docs                                                                                 |                                                           |
 | **POST** `/games`                                              | Post a game                                                                                  | `{"name": "sample", "price": 71.7,  "space": 1073741824}` |
 | **GET** `/best_value_games?pen_drive_space={POSITIVE_INTEGER}` | Fetches a combination with the highest possible total value that fits given pen-drive space. |                                                           |
