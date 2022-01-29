@@ -7,3 +7,5 @@ WORKDIR /var/www
 COPY . /var/www
 
 RUN pip install -r requirements.txt
+
+CMD ["bash", "/var/www/server.sh"]
