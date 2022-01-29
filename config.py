@@ -10,9 +10,9 @@ class Config:
     ENV: str = os.environ.get('FLASK_ENV')
     POSTGRES_PASSWORD: str = os.environ.get('POSTGRES_PASSWORD')
     POSTGRES_DB: str = os.environ.get('POSTGRES_DB')
-    POSTGRES_HOST: str = os.environ.get('POSTGRES_HOST')
+    POSTGRES_HOST: str = os.environ.get('POSTGRES_HOST', 'localhost')
     POSTGRES_USER: str = os.environ.get('POSTGRES_USER')
-    POSTGRES_PORT: str = os.environ.get('POSTGRES_PORT')
+    POSTGRES_PORT: str = os.environ.get('POSTGRES_PORT', 5432)
     SWAGGER: Dict[str, Any] = {
         'title': 'Alocai Games',
         'uiversion': 3,
