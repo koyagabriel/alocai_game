@@ -24,4 +24,11 @@ class Game(BaseMixin, db.Model):
         game_instance: cls = cls(**params)
         game_instance.save()
         return game_instance
+    
+    @classmethod
+    def filter_by_name(cls, name, many=False):
+        query_set = cls.query.filter_by(name=name)
+        if many:
+            return query_set.all()
+        return query_set.first()
 
