@@ -7,7 +7,12 @@ load_dotenv(dotenv_path)
 
 
 class Config:
-    ENV: str = os.environ.get('ENV')
+    ENV: str = os.environ.get('FLASK_ENV')
+    POSTGRES_PASSWORD: str = os.environ.get('POSTGRES_PASSWORD')
+    POSTGRES_DB: str = os.environ.get('POSTGRES_DB')
+    POSTGRES_HOST: str = os.environ.get('POSTGRES_HOST')
+    POSTGRES_USER: str = os.environ.get('POSTGRES_USER')
+    POSTGRES_PORT: str = os.environ.get('POSTGRES_PORT')
     SWAGGER: Dict[str, Any] = {
         'title': 'Alocai Games',
         'uiversion': 3,
@@ -23,13 +28,12 @@ class Config:
         "swagger_ui": True,
         "specs_route": "/docs/",
     }
-    SQLALCHEMY_DATABASE_URI: str = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI: str = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 class DevelopmentConfig(Config):
    pass
    
 class TestingConfig(Config):
-    ENV: str = "testing"
-    TESTING: bool = True
+    pass
     
 class ProductionConfig(Config):
     pass
