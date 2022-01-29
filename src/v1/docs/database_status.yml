@@ -1,0 +1,21 @@
+consumes:
+  - application/json
+produces:
+  - application/json
+definitions:
+  StatusResponse:
+    type: object
+    properties:
+      database:
+        type: string
+responses:
+  200:
+    description: Healthy database connection
+    schema:
+      $ref: '#/definitions/StatusResponse'
+  503:
+    description: Unhealthy database connection
+    schema:
+      $ref: '#/definitions/StatusResponse'
+
+  

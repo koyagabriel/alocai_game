@@ -1,0 +1,26 @@
+summary: Fetch best value games
+description: Highest possible total value that fits given pen-drive space
+operationId: fetchGame
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: query
+    name: pen_drive_space
+    description: Game storage size
+    required: true
+    type: integer
+definitions:
+  FetchGameSuccessResponse:
+    type: object
+    properties:
+      games:
+        type: array
+        items:
+           $ref: '#/definitions/Game'
+responses:
+  200:
+    description: List of games stored in pen-drive space
+    schema:
+      $ref: '#/definitions/FetchGameSuccessResponse'
