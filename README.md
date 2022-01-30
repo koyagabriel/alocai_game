@@ -14,11 +14,6 @@ total value for the given pen-drive space
 3. Create a `.env` file in your root directory as described in `.env.example` file and configure the necessary options. It is essential you create this file before running the application.
 4. Set POSTGRES_HOST to `alocai_db` which is the name of the dtabase service, and POSTGRES_PORT to `5432`.
 5. Build a docker image by running the command `docke-compose up`
-6. Enter into the python container using the command `docker exec -it {container_name} bash` and setup up your database following these steps: 
-    * `python manage.py db init`
-    * `python manage.py db migrate`
-    * `python manage.py db upgrade`
-
 
 #### Outside Docker Environment
 1. Start up your terminal (or Command Prompt on Windows OS).
@@ -26,11 +21,7 @@ total value for the given pen-drive space
 3. Clone the repository by entering the command `git@github.com:koyagabriel/alocai_game.git` in the terminal.
 4. Create a `.env` file in your root directory as described in `.env.example` file and configure the necessary options. It is essential you create this file before running the application.
 6. Install requirements by running the command `pip3 install -r requirements.txt`
-7. Setup up your database following these steps: 
-    * `python manage.py db init`
-    * `python manage.py db migrate`
-    * `python manage.py db upgrade`
-8. Start local server by running the command.
+7. Start local server by running the command.
    `bash server.sh`
 
 ### API Resource Endpoints
@@ -48,4 +39,4 @@ URL Prefix = Base URL is `http://localhost:5000/api/v1` on your local system.
 
 ## Authors
 
-**Koya Gabriel.**
+**Koya Adegboyega.**
